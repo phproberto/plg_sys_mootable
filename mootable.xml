@@ -6,8 +6,8 @@
 	<copyright>Copyright (C) 2012 Roberto Segura. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>roberto@phproberto.com</authorEmail>
-	<authorUrl>www.phproberto.com</authorUrl>
-	<version>1.0.0</version>
+	<authorUrl>http://digitaldisseny.com/en/extensions/showtags-content-tags-joomla-plugin</authorUrl>
+	<version>1.0.1</version>
 	<description>PLG_SYS_MOOTABLE_XML_DESC</description>
 	<files>
 		<folder>css</folder>
@@ -20,6 +20,12 @@
 		<!-- en-GB -->
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_mootable.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_mootable.sys.ini</language>
+		<!-- es-ES -->
+		<language tag="es-ES">language/es-ES/es-ES.plg_system_mootable.ini</language>
+		<language tag="es-ES">language/es-ES/es-ES.plg_system_mootable.sys.ini</language>
+		<!-- pl-PL -->
+		<language tag="pl-PL">language/pl-PL/pl-PL.plg_system_mootable.ini</language>
+		<language tag="pl-PL">language/pl-PL/pl-PL.plg_system_mootable.sys.ini</language>
 	</languages>
 	<config>
 	<fields name="params">
