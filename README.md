@@ -12,7 +12,7 @@ Features
 
 Version 
 ---------------
-**Plugin version:** 1.0.1  
+**Plugin version:** 1.0.2  
 
 
 Install
@@ -28,4 +28,6 @@ When editing a menu you will see a new pane called "Mootools enable/disable". Ad
 
 Release history 
 ---------------
+v.1.0.2 -> Remove JCaption calls, null window.addEvent calls and add a manual script disabler  
 v.1.0.1 -> Added polish language. Thanks to Pawel Frankowski!  
+v.1.0.0 -> First stable version  
