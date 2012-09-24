@@ -12,7 +12,8 @@ Features
 
 Version 
 ---------------
-**Plugin version:** 1.0.0  
+**Plugin version:** 1.0.1  
+
 
 Install
 ---------------
@@ -24,3 +25,7 @@ Then install normally throught Joomla! Extension Manager as package (if you down
 In plugin management search "System - Mootools Enabler/Disabler", enable the plugin and set in its preferences the default Mootools mode.  
 
 When editing a menu you will see a new pane called "Mootools enable/disable". Adjust there if you want to load or not Mootools for this menu item.
+
+Release history 
+---------------
+v.1.0.1 -> Added polish language. Thanks to Pawel Frankowski!  
