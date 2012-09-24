@@ -43,6 +43,15 @@
 							PLG_SYS_MOOTABLE_FIELD_DEFAULT_ENABLED
 						</option>
 				</field>
+				<field 
+					name="manualDisable" 
+					type="textarea" 
+					default="" 
+					label="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLE_LABEL" 
+					description="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLE_DESC" 
+					rows="5" 
+					cols="30" 
+				/>
 		</fieldset>
 	</fields>
 	</config>

@@ -130,7 +130,6 @@ class PlgSystemMootable extends JPlugin
 	 */
 	function onBeforeRender()
 	{
-
 		// Validate view
 		if (!$this->_validateUrl())
 		{
@@ -146,6 +145,9 @@ class PlgSystemMootable extends JPlugin
 		$mootable = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
 		if (!$mootable)
 		{
+			// Function used to replace window.addEvent()
+			$doc->addScriptDeclaration("function do_nothing() { return; }");
+
 			// Disable mootools javascript
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core.js']);
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more.js']);
@@ -157,7 +159,61 @@ class PlgSystemMootable extends JPlugin
 
 			// Disable css stylesheets
 			unset($doc->_styleSheets[JURI::root(true) . '/media/system/css/modal.css']);
+
+			// Disable 3rd party extensions added by the user
+			if ($manualDisable = $this->_params->get('manualDisable', null))
+			{
+				$scripts = explode(',', $manualDisable);
+				foreach ($scripts as $script)
+				{
+					// Try to disable relative and full URLs
+					unset($doc->_scripts[$script]);
+					unset($doc->_scripts[JURI::root(true) . $script]);
+				}
+			}
+
 		}
+	}
+
+	/**
+     * This event is triggered after pushing the document buffers into the template placeholders,
+     * retrieving data from the document and pushing it into the into the JResponse buffer.
+     * http://docs.joomla.org/Plugin/Events/System
+     *
+     * @return boolean
+     */
+	function onAfterRender()
+	{
+		// Validate view
+		if (!$this->_validateUrl())
+		{
+			return true;
+		}
+
+		// Required objects
+		$app        = JFactory::getApplication();
+		$doc        = JFactory::getDocument();
+		$pageParams = $app->getParams();
+
+		// Check if we have to disable Mootools for this item
+		$mootable = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
+		if (!$mootable)
+		{
+			// Get the generated content
+			$body = JResponse::getBody();
+
+			// Remove JCaption JS calls
+			$pattern = "/(new JCaption\()(.*)(\);)/isU";
+			$replacement = '';
+			$body = preg_replace($pattern, $replacement, $body);
+
+			// Null window.addEvent( calls
+			$pattern = "/(window.addEvent\()(.*)(',)/isU";
+			$body = preg_replace($pattern, 'do_nothing(', $body);
+			JResponse::setBody($body);
+		}
+
+		return true;
 	}
 
 	/**
