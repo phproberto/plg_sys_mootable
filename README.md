@@ -8,11 +8,13 @@ When Bootstrap comes to Joomla! users need a tool to avoid Mootools loading by d
 Features   
 ---------------  
 * Mootools can be enabled or disabled by default.
-* To enable/disable Mootools just edit the menu and set "Mootools enable/disable" to No.
+* You can enable/disable Mootools when editing menu items.
+* Nulls any window.addEvent calls.  
+* Removes JCaption calls
 
 Version 
 ---------------
-**Plugin version:** 1.0.2  
+**Plugin version:** 1.0.3  
 
 
 Install
@@ -28,6 +30,7 @@ When editing a menu you will see a new pane called "Mootools enable/disable". Ad
 
 Release history 
 ---------------
+v.1.0.3 -> Added portuguese (Brasil) language. Thanks to Mary Mar Alejo!
 v.1.0.2 -> Remove JCaption calls, null window.addEvent calls and add a manual script disabler  
 v.1.0.1 -> Added polish language. Thanks to Pawel Frankowski!  
 v.1.0.0 -> First stable version  
