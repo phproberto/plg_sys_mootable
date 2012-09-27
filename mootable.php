@@ -32,9 +32,9 @@ class PlgSystemMootable extends JPlugin
 	const NAME = 'mootable';
 
 	// Handy objects
-	private $_app = null;
+	private $_app    = null;
 
-	private $_doc = null;
+	private $_doc    = null;
 
 	private $_jinput = null;
 
@@ -44,21 +44,23 @@ class PlgSystemMootable extends JPlugin
 	// Urls
 	private $_urlPlugin = null;
 
-	private $_urlJs = null;
+	private $_urlJs     = null;
 
-	private $_urlCss = null;
+	private $_urlCss    = null;
 
 	// Url parameters
+	private $_layout = null;
+
 	private $_option = null;
 
-	private $_view = null;
+	private $_view   = null;
 
-	private $_id = null;
+	private $_id     = null;
 
 	// CSS & JS scripts calls
-	private $_cssCalls = array();
+	private $_cssCalls 	= array();
 
-	private $_jsCalls = array();
+	private $_jsCalls 	= array();
 
 	// HTML positions to inject CSS & JS
 	private $_htmlPositions = array(
@@ -80,12 +82,12 @@ class PlgSystemMootable extends JPlugin
 	// Used to validate url
 	private $_componentsEnabled = array('*');
 
-	private $_viewsEnabled = array('*');
+	private $_viewsEnabled 		= array('*');
 
 	// Configure applications where enable plugin
-	private $_frontendEnabled = true;
+	private $_frontendEnabled 	= true;
 
-	private $_backendEnabled = false;
+	private $_backendEnabled 	= false;
 
 	/**
 	* Constructor
@@ -94,7 +96,6 @@ class PlgSystemMootable extends JPlugin
 	*/
 	function __construct( &$subject )
 	{
-
 		parent::__construct($subject);
 
 		// Required objects
@@ -103,9 +104,10 @@ class PlgSystemMootable extends JPlugin
 		$this->_jinput = $this->_app->input;
 
 		// Get url parameters
+		$this->_layout = $this->_jinput->get('layout', null);
 		$this->_option = $this->_jinput->get('option', null);
-		$this->_view = $this->_jinput->get('view', null);
-		$this->_id = $this->_jinput->get('id', null);
+		$this->_view   = $this->_jinput->get('view', null);
+		$this->_id     = $this->_jinput->get('id', null);
 
 		// Set the HTML available positions
 		$this->_htmlPositionsAvailable = array_keys($this->_htmlPositions);
@@ -137,13 +139,13 @@ class PlgSystemMootable extends JPlugin
 		}
 
 		// Required objects
-		$app 	= JFactory::getApplication();
-		$doc 	= JFactory::getDocument();
+		$app        = JFactory::getApplication();
+		$doc        = JFactory::getDocument();
 		$pageParams = $app->getParams();
 
 		// Check if we have to disable Mootools for this item
 		$mootable = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
-		if (!$mootable)
+		if (!$this->isContentEdit() && !$mootable)
 		{
 			// Function used to replace window.addEvent()
 			$doc->addScriptDeclaration("function do_nothing() { return; }");
@@ -171,7 +173,6 @@ class PlgSystemMootable extends JPlugin
 					unset($doc->_scripts[JURI::root(true) . $script]);
 				}
 			}
-
 		}
 	}
 
@@ -197,19 +198,19 @@ class PlgSystemMootable extends JPlugin
 
 		// Check if we have to disable Mootools for this item
 		$mootable = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
-		if (!$mootable)
+		if (!$this->isContentEdit() && !$mootable)
 		{
 			// Get the generated content
 			$body = JResponse::getBody();
 
 			// Remove JCaption JS calls
-			$pattern = "/(new JCaption\()(.*)(\);)/isU";
+			$pattern     = "/(new JCaption\()(.*)(\);)/isU";
 			$replacement = '';
-			$body = preg_replace($pattern, $replacement, $body);
+			$body        = preg_replace($pattern, $replacement, $body);
 
 			// Null window.addEvent( calls
-			$pattern = "/(window.addEvent\()(.*)(',)/isU";
-			$body = preg_replace($pattern, 'do_nothing(', $body);
+			$pattern = "/(window.addEvent\()(.*)(,)/isU";
+			$body    = preg_replace($pattern, 'do_nothing(', $body);
 			JResponse::setBody($body);
 		}
 
@@ -358,8 +359,28 @@ class PlgSystemMootable extends JPlugin
 
 		// Urls
 		$this->_urlPlugin = JURI::root(true) . "/plugins/" . self::TYPE . "/" . self::NAME;
-		$this->_urlJs = $this->_urlPlugin . "/js";
-		$this->_urlCss = $this->_urlPlugin . "/css";
+		$this->_urlJs     = $this->_urlPlugin . "/js";
+		$this->_urlCss    = $this->_urlPlugin . "/css";
+	}
+
+	/**
+	 * Detect if the user is editing an article
+	 *
+	 * @return boolean
+	 *
+	 * @author Roberto Segura
+	 * @version 28/09/2012
+	 *
+	 */
+	private function isContentEdit()
+	{
+		$option = $this->_jinput->get('option', null);
+		$isContentEdit = $this->_params->get('contentEdition', 1);
+		if ($isContentEdit && $option == 'com_content' && $this->_view == 'form' && $this->_layout == 'edit')
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -385,9 +406,9 @@ class PlgSystemMootable extends JPlugin
 					{
 						// Generate the injected code
 						$cssIncludes = implode("\n\t", $cssCalls);
-						$pattern = $this->_htmlPositions[$position]['pattern'];
+						$pattern     = $this->_htmlPositions[$position]['pattern'];
 						$replacement = str_replace('##CONT##', $cssIncludes, $this->_htmlPositions[$position]['replacement']);
-						$body = preg_replace($pattern, $replacement, $body);
+						$body        = preg_replace($pattern, $replacement, $body);
 					}
 					else
 					{
@@ -426,10 +447,10 @@ class PlgSystemMootable extends JPlugin
 					if ( in_array($position, $this->_htmlPositionsAvailable) )
 					{
 						// Generate the injected code
-						$jsIncludes = implode("\n\t", $jsCalls);
-						$pattern = $this->_htmlPositions[$position]['pattern'];
+						$jsIncludes  = implode("\n\t", $jsCalls);
+						$pattern     = $this->_htmlPositions[$position]['pattern'];
 						$replacement = str_replace('##CONT##', $jsIncludes, $this->_htmlPositions[$position]['replacement']);
-						$body = preg_replace($pattern, $replacement, $body);
+						$body        = preg_replace($pattern, $replacement, $body);
 					}
 					else
 					{
