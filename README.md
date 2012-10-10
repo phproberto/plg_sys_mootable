@@ -30,7 +30,7 @@ When editing a menu you will see a new pane called "Mootools enable/disable". Ad
 
 Release history 
 ---------------
-v.1.0.6 -> Added dutch language. Thanks to [[Rene Kreijveld!](http://www.renekreijveld.nl/)]
+v.1.0.6 -> Added dutch language. Thanks to [[Rene Kreijveld!](http://www.renekreijveld.nl/)]  
 v.1.0.5 -> Auto mootools enable for content edition. Joomla! 3.0 compatible  
 v.1.0.4 -> Added german language. Thanks to [[Johannes Hock!](http://www.adhocgrafx.de/)]  
 v.1.0.3 -> Added portuguese (Brasil) language. Thanks to [[Mary Mar Alejo!](http://www.marymaralejo.com/)]
