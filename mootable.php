@@ -374,12 +374,17 @@ class PlgSystemMootable extends JPlugin
 	 */
 	private function isContentEdit()
 	{
-		$option = $this->_jinput->get('option', null);
+		$option 	= $this->_jinput->get('option', null);
 		
-		if($option == 'com_form2contentsearch')
-        {
-            return true;
-        }
+		// Always enable mootools for given components
+		if ($alwaysEnable = $this->_params->get('alwaysEnable', null))
+		{
+			$components = explode(',', $this->_params->get('alwaysEnable', null));
+			if (in_array($option, $components))
+			{
+				return true;
+			}
+		}
 		
 		$isContentEdit = $this->_params->get('contentEdition', 1);
 		if ($isContentEdit && $option == 'com_content' && $this->_view == 'form' && $this->_layout == 'edit')

@@ -61,6 +61,15 @@
 					rows="5"
 					cols="30"
 				/>
+				<field
+					name="alwaysEnable"
+					type="textarea"
+					default=""
+					label="PLG_SYS_MOOTABLE_FIELD_COMPONENTS_ENABLE_LABEL"
+					description="PLG_SYS_MOOTABLE_FIELD_COMPONENTS_ENABLE_DESC"
+					rows="5"
+					cols="30"
+				/>
 				<field name="contentEdition" type="radio"
 					description="PLG_SYS_MOOTABLE_FIELD_CONTENT_EDITION_LABEL"
 					label="PLG_SYS_MOOTABLE_FIELD_CONTENT_EDITION_DESC"
