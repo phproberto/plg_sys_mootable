@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>roberto@phproberto.com</authorEmail>
 	<authorUrl>http://digitaldisseny.com/en/extensions/showtags-content-tags-joomla-plugin</authorUrl>
-	<version>1.0.6</version>
+	<version>1.0.7</version>
 	<description>PLG_SYS_MOOTABLE_XML_DESC</description>
 	<files>
 		<folder>css</folder>

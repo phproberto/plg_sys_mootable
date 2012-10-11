@@ -145,7 +145,7 @@ class PlgSystemMootable extends JPlugin
 
 		// Check if we have to disable Mootools for this item
 		$mootable = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
-		if (!$this->isContentEdit() && !$mootable)
+		if (!$this->_isAutoEnabled() && !$mootable)
 		{
 			// Function used to replace window.addEvent()
 			$doc->addScriptDeclaration("function do_nothing() { return; }");
@@ -198,7 +198,7 @@ class PlgSystemMootable extends JPlugin
 
 		// Check if we have to disable Mootools for this item
 		$mootable = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
-		if (!$this->isContentEdit() && !$mootable)
+		if (!$this->_isAutoEnabled() && !$mootable)
 		{
 			// Get the generated content
 			$body = JResponse::getBody();
@@ -372,10 +372,10 @@ class PlgSystemMootable extends JPlugin
 	 * @version 28/09/2012
 	 *
 	 */
-	private function isContentEdit()
+	private function _isAutoEnabled()
 	{
 		$option 	= $this->_jinput->get('option', null);
-		
+
 		// Always enable mootools for given components
 		if ($alwaysEnable = $this->_params->get('alwaysEnable', null))
 		{
@@ -385,7 +385,8 @@ class PlgSystemMootable extends JPlugin
 				return true;
 			}
 		}
-		
+
+		// Allways enable for content edition
 		$isContentEdit = $this->_params->get('contentEdition', 1);
 		if ($isContentEdit && $option == 'com_content' && $this->_view == 'form' && $this->_layout == 'edit')
 		{
