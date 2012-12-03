@@ -10,11 +10,13 @@ Features
 * Mootools can be enabled or disabled by default.
 * You can enable/disable Mootools when editing menu items.
 * Nulls any window.addEvent calls.  
-* Removes JCaption calls
+* Removes JCaption calls.  
+* You can enable Mootools for specific components.  
+* By default the plugin enables Mootools for frontend conten edition and com_users (login, profile edition, etc.).  
 
 Version 
 ---------------
-**Plugin version:** 1.0.7  
+**Plugin version:** 1.0.8  
 
 Install
 ---------------
@@ -29,6 +31,7 @@ When editing a menu you will see a new pane called "Mootools enable/disable". Ad
 
 Release history 
 ---------------
+v.1.0.8 -> Fixed autoenable for content creation & friendly URLs enabled. Autoenable for com_users.  
 v.1.0.7 -> Added autocomponent enabling. Thanks to [[Hans Kuijpers!](http://www.linkedin.com/in/hans2103/)]  
 v.1.0.6 -> Added dutch language. Thanks to [[Rene Kreijveld!](http://www.renekreijveld.nl/)]  
 v.1.0.5 -> Auto mootools enable for content edition. Joomla! 3.0 compatible  
