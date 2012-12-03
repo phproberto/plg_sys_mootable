@@ -36,8 +36,6 @@ class PlgSystemMootable extends JPlugin
 
 	private $_doc    = null;
 
-	private $_jinput = null;
-
 	// Paths
 	private $_pathPlugin = null;
 
@@ -101,13 +99,6 @@ class PlgSystemMootable extends JPlugin
 		// Required objects
 		$this->_app = JFactory::getApplication();
 		$this->_doc = JFactory::getDocument();
-		$this->_jinput = $this->_app->input;
-
-		// Get url parameters
-		$this->_layout = $this->_jinput->get('layout', null);
-		$this->_option = $this->_jinput->get('option', null);
-		$this->_view   = $this->_jinput->get('view', null);
-		$this->_id     = $this->_jinput->get('id', null);
 
 		// Set the HTML available positions
 		$this->_htmlPositionsAvailable = array_keys($this->_htmlPositions);
@@ -376,7 +367,11 @@ class PlgSystemMootable extends JPlugin
 	private function _isAutoEnabled()
 	{
 		$app    = JFactory::getApplication();
-		$option = $this->_jinput->get('option', null);
+		$jinput = $app->input;
+		$option = $jinput->get('option', null);
+		$view 	= $jinput->get('view', null);
+		$id     = $jinput->get('id', null);
+		$layout = $jinput->get('layout', null);
 
 		// Always enable mootools for given components
 		if ($alwaysEnable = $this->_params->get('alwaysEnable', null))
@@ -390,7 +385,7 @@ class PlgSystemMootable extends JPlugin
 
 		// Allways enable for content edition
 		$isContentEdit = $this->_params->get('contentEdition', 1);
-		if ($app->isSite() &&  $isContentEdit && $option == 'com_content' && $this->_view == 'form' && $this->_layout == 'edit')
+		if ($app->isSite() &&  $isContentEdit && $option == 'com_content' && $view == 'form' && $layout == 'edit')
 		{
 			return true;
 		}
