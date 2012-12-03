@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>roberto@phproberto.com</authorEmail>
 	<authorUrl>http://digitaldisseny.com/en/extensions/showtags-content-tags-joomla-plugin</authorUrl>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 	<description>PLG_SYS_MOOTABLE_XML_DESC</description>
 	<files>
 		<folder>css</folder>
@@ -71,12 +71,20 @@
 					cols="30"
 				/>
 				<field name="contentEdition" type="radio"
-					description="PLG_SYS_MOOTABLE_FIELD_CONTENT_EDITION_LABEL"
-					label="PLG_SYS_MOOTABLE_FIELD_CONTENT_EDITION_DESC"
+					label="PLG_SYS_MOOTABLE_FIELD_CONTENT_EDITION_LABEL"
+					description="PLG_SYS_MOOTABLE_FIELD_CONTENT_EDITION_DESC"
 					default="1"
 				>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field name="enableComUsers" type="radio"
+					label="PLG_SYS_MOOTABLE_FIELD_ENABLE_COM_USERS_LABEL"
+					description="PLG_SYS_MOOTABLE_FIELD_ENABLE_COM_USERS_DESC"
+					default="1"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 		</fieldset>
 	</fields>

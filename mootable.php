@@ -174,6 +174,7 @@ class PlgSystemMootable extends JPlugin
 				}
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -374,7 +375,8 @@ class PlgSystemMootable extends JPlugin
 	 */
 	private function _isAutoEnabled()
 	{
-		$option 	= $this->_jinput->get('option', null);
+		$app    = JFactory::getApplication();
+		$option = $this->_jinput->get('option', null);
 
 		// Always enable mootools for given components
 		if ($alwaysEnable = $this->_params->get('alwaysEnable', null))
@@ -388,10 +390,19 @@ class PlgSystemMootable extends JPlugin
 
 		// Allways enable for content edition
 		$isContentEdit = $this->_params->get('contentEdition', 1);
-		if ($isContentEdit && $option == 'com_content' && $this->_view == 'form' && $this->_layout == 'edit')
+		if ($app->isSite() &&  $isContentEdit && $option == 'com_content' && $this->_view == 'form' && $this->_layout == 'edit')
 		{
 			return true;
 		}
+
+		// Allways enable for frontend com_users (login, profile edit, etc.)
+		$enableComUsers = $this->_params->get('enableComUsers', 1);
+		if ($app->isSite() && $enableComUsers && $option == 'com_users')
+		{
+			return true;
+		}
+
+
 		return false;
 	}
 
