@@ -149,7 +149,15 @@ class PlgSystemMootable extends JPlugin
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/modal.js']);
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools.js']);
 			unset($doc->_scripts[JURI::root(true) . '/plugins/system/mtupgrade/mootools.js']);
-
+			
+			//Disabled mootools javascript when debugging site
+			$disableWhenDebug = $pageParams->get('mootable', $this->_params->get('disableWhenDebug', 0));
+			if(JFactory::getConfig()->debug && $disableWhenDebug){
+				unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core-uncompresed.js']);
+				unset($doc->_scripts[JURI::root(true) . '/media/system/js/core-uncompresed.js']);
+				unset($doc->_scripts[JURI::root(true) . '/media/system/js/caption-uncompresed.js']);
+			}
+			
 			// Disable css stylesheets
 			unset($doc->_styleSheets[JURI::root(true) . '/media/system/css/modal.css']);
 
