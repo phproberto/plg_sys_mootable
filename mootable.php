@@ -136,6 +136,7 @@ class PlgSystemMootable extends JPlugin
 
 		// Check if we have to disable Mootools for this item
 		$mootable = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
+
 		if (!$this->_isAutoEnabled() && !$mootable)
 		{
 			// Function used to replace window.addEvent()
@@ -149,15 +150,20 @@ class PlgSystemMootable extends JPlugin
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/modal.js']);
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools.js']);
 			unset($doc->_scripts[JURI::root(true) . '/plugins/system/mtupgrade/mootools.js']);
-			
-			//Disabled mootools javascript when debugging site
+
+			// Disabled mootools javascript when debugging site
 			$disableWhenDebug = $pageParams->get('mootable', $this->_params->get('disableWhenDebug', 0));
-			if(JFactory::getConfig()->debug && $disableWhenDebug){
+
+			// Are we in debug mode ?
+			$debugMode = (isset(JFactory::getConfig()->debug) && JFactory::getConfig()->debug);
+
+			if ($debugMode && $disableWhenDebug)
+			{
 				unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core-uncompresed.js']);
 				unset($doc->_scripts[JURI::root(true) . '/media/system/js/core-uncompresed.js']);
 				unset($doc->_scripts[JURI::root(true) . '/media/system/js/caption-uncompresed.js']);
 			}
-			
+
 			// Disable css stylesheets
 			unset($doc->_styleSheets[JURI::root(true) . '/media/system/css/modal.css']);
 
@@ -165,6 +171,7 @@ class PlgSystemMootable extends JPlugin
 			if ($manualDisable = $this->_params->get('manualDisable', null))
 			{
 				$scripts = explode(',', $manualDisable);
+
 				foreach ($scripts as $script)
 				{
 					// Try to disable relative and full URLs
@@ -198,6 +205,7 @@ class PlgSystemMootable extends JPlugin
 
 		// Check if we have to disable Mootools for this item
 		$mootable = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
+
 		if (!$this->_isAutoEnabled() && !$mootable)
 		{
 			// Get the generated content
@@ -231,6 +239,7 @@ class PlgSystemMootable extends JPlugin
 		if (!($form instanceof JForm))
 		{
 			$this->_subject->setError('JERROR_NOT_A_FORM');
+
 			return false;
 		}
 
@@ -385,6 +394,7 @@ class PlgSystemMootable extends JPlugin
 		if ($alwaysEnable = $this->_params->get('alwaysEnable', null))
 		{
 			$components = explode(',', $this->_params->get('alwaysEnable', null));
+
 			if (in_array($option, $components))
 			{
 				return true;
@@ -393,6 +403,7 @@ class PlgSystemMootable extends JPlugin
 
 		// Allways enable for content edition
 		$isContentEdit = $this->_params->get('contentEdition', 1);
+
 		if ($app->isSite() &&  $isContentEdit && $option == 'com_content' && $view == 'form' && $layout == 'edit')
 		{
 			return true;
@@ -400,6 +411,7 @@ class PlgSystemMootable extends JPlugin
 
 		// Allways enable for frontend com_users (login, profile edit, etc.)
 		$enableComUsers = $this->_params->get('enableComUsers', 1);
+
 		if ($app->isSite() && $enableComUsers && $option == 'com_users')
 		{
 			return true;
@@ -423,6 +435,7 @@ class PlgSystemMootable extends JPlugin
 		if (!empty($this->_cssCalls))
 		{
 			$body = JResponse::getBody();
+
 			foreach ($this->_cssCalls as $position => $cssCalls)
 			{
 				if (!empty($cssCalls))
@@ -439,6 +452,7 @@ class PlgSystemMootable extends JPlugin
 					else
 					{
 						$doc = JFactory::getDocument();
+
 						foreach ($cssCalls as $cssUrl)
 						{
 							$doc->addStyleSheet($cssUrl);
@@ -447,6 +461,7 @@ class PlgSystemMootable extends JPlugin
 				}
 			}
 			JResponse::setBody($body);
+
 			return $body;
 		}
 	}
@@ -465,6 +480,7 @@ class PlgSystemMootable extends JPlugin
 		if (!empty($this->_jsCalls))
 		{
 			$body = JResponse::getBody();
+
 			foreach ($this->_jsCalls as $position => $jsCalls)
 			{
 				if (!empty($jsCalls))
@@ -481,6 +497,7 @@ class PlgSystemMootable extends JPlugin
 					else
 					{
 						$doc = JFactory::getDocument();
+
 						foreach ($jsCalls as $jsUrl)
 						{
 							$doc->addScript($jsUrl);
@@ -489,6 +506,7 @@ class PlgSystemMootable extends JPlugin
 				}
 			}
 			JResponse::setBody($body);
+
 			return $body;
 		}
 	}
