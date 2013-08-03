@@ -23,7 +23,6 @@ JLoader::import('joomla.plugin.plugin');
  */
 class PlgSystemMootable extends JPlugin
 {
-
 	private $_params = null;
 
 	// Plugin info constants
@@ -159,9 +158,9 @@ class PlgSystemMootable extends JPlugin
 
 			if ($debugMode && $disableWhenDebug)
 			{
-				unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core-uncompresed.js']);
-				unset($doc->_scripts[JURI::root(true) . '/media/system/js/core-uncompresed.js']);
-				unset($doc->_scripts[JURI::root(true) . '/media/system/js/caption-uncompresed.js']);
+				unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core-uncompressed.js']);
+				unset($doc->_scripts[JURI::root(true) . '/media/system/js/core-uncompressed.js']);
+				unset($doc->_scripts[JURI::root(true) . '/media/system/js/caption-uncompressed.js']);
 			}
 
 			// Disable css stylesheets
@@ -180,6 +179,7 @@ class PlgSystemMootable extends JPlugin
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -268,6 +268,7 @@ class PlgSystemMootable extends JPlugin
 					</form>
 					');
 		}
+
 		return true;
 	}
 
@@ -285,7 +286,6 @@ class PlgSystemMootable extends JPlugin
 	 */
 	private function _addCssCall($cssUrl, $position = null)
 	{
-
 		// If position is not available we will try to load the url through $doc->addScript
 		if (is_null($position) || !in_array($position, $this->_htmlPositionsAvailable))
 		{
@@ -305,7 +305,6 @@ class PlgSystemMootable extends JPlugin
 
 		// Insert CSS call
 		$this->_cssCalls[$position][] = $cssCall;
-
 	}
 
 	/**
@@ -322,7 +321,6 @@ class PlgSystemMootable extends JPlugin
 	 */
 	private function _addJsCall($jsUrl, $position = null, $type = 'url')
 	{
-
 		// If position is not available we will try to load the url through $doc->addScript
 		if (is_null($position) || !in_array($position, $this->_htmlPositionsAvailable))
 		{
@@ -362,7 +360,6 @@ class PlgSystemMootable extends JPlugin
 	 */
 	private function _initFolders()
 	{
-
 		// Paths
 		$this->_pathPlugin = JPATH_PLUGINS . '/' . self::TYPE . '/' . self::NAME;
 
@@ -417,7 +414,6 @@ class PlgSystemMootable extends JPlugin
 			return true;
 		}
 
-
 		return false;
 	}
 
@@ -460,6 +456,7 @@ class PlgSystemMootable extends JPlugin
 					}
 				}
 			}
+
 			JResponse::setBody($body);
 
 			return $body;
@@ -505,6 +502,7 @@ class PlgSystemMootable extends JPlugin
 					}
 				}
 			}
+
 			JResponse::setBody($body);
 
 			return $body;
@@ -526,6 +524,7 @@ class PlgSystemMootable extends JPlugin
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -544,6 +543,7 @@ class PlgSystemMootable extends JPlugin
 		{
 			return true;
 		}
+
 		return false;
 	}
 
@@ -583,6 +583,7 @@ class PlgSystemMootable extends JPlugin
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -601,6 +602,7 @@ class PlgSystemMootable extends JPlugin
 		{
 			return true;
 		}
+
 		return false;
 	}
 }
