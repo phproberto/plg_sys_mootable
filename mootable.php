@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.Plugin
  * @subpackage  System.Mootable
@@ -134,51 +133,50 @@ class PlgSystemMootable extends JPlugin
 		$pageParams = $app->getParams();
 
 		// Check if we have to disable Mootools for this item
-		$mootable = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
+		$mootoolsMode = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
+		$moreMode     = $pageParams->get('moreMode', $this->_params->get('defaultMoreMode', 0));
 
-		if (!$this->_isAutoEnabled() && !$mootable)
+		$disableOnDebug = $this->_params->get('disableWhenDebug', 1);
+
+		if (!$this->_isAutoEnabled() && 0 == $mootoolsMode)
 		{
 			// Function used to replace window.addEvent()
 			$doc->addScriptDeclaration("function do_nothing() { return; }");
 
 			// Disable mootools javascript
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core.js']);
-			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more.js']);
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/core.js']);
+			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more.js']);
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/caption.js']);
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/modal.js']);
 			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools.js']);
 			unset($doc->_scripts[JURI::root(true) . '/plugins/system/mtupgrade/mootools.js']);
 
 			// Disabled mootools javascript when debugging site
-			$disableWhenDebug = $pageParams->get('mootable', $this->_params->get('disableWhenDebug', 0));
-
-			// Are we in debug mode ?
-			$debugMode = (isset(JFactory::getConfig()->debug) && JFactory::getConfig()->debug);
-
-			if ($debugMode && $disableWhenDebug)
+			if ($disableOnDebug)
 			{
 				unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core-uncompressed.js']);
+				unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more-uncompressed.js']);
 				unset($doc->_scripts[JURI::root(true) . '/media/system/js/core-uncompressed.js']);
 				unset($doc->_scripts[JURI::root(true) . '/media/system/js/caption-uncompressed.js']);
 			}
 
 			// Disable css stylesheets
 			unset($doc->_styleSheets[JURI::root(true) . '/media/system/css/modal.css']);
+		}
+		elseif (0 == $moreMode)
+		{
+			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more.js']);
 
-			// Disable 3rd party extensions added by the user
-			if ($manualDisable = $this->_params->get('manualDisable', null))
+			if ($disableOnDebug)
 			{
-				$scripts = explode(',', $manualDisable);
-
-				foreach ($scripts as $script)
-				{
-					// Try to disable relative and full URLs
-					unset($doc->_scripts[$script]);
-					unset($doc->_scripts[JURI::root(true) . $script]);
-				}
+				unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more-uncompressed.js']);
 			}
 		}
+
+		// Disable additional assets specified by the user
+		$this->disablePageScripts();
+		$this->disablePageStylesheets();
 
 		return true;
 	}
@@ -204,9 +202,9 @@ class PlgSystemMootable extends JPlugin
 		$pageParams = $app->getParams();
 
 		// Check if we have to disable Mootools for this item
-		$mootable = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
+		$mode = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
 
-		if (!$this->_isAutoEnabled() && !$mootable)
+		if (!$this->_isAutoEnabled() && !$mode)
 		{
 			// Get the generated content
 			$body = JResponse::getBody();
@@ -246,27 +244,7 @@ class PlgSystemMootable extends JPlugin
 		// Extra parameters for menu edit
 		if ($form->getName() == 'com_menus.item')
 		{
-			$form->load('
-					<form>
-					<fields name="params" >
-					<fieldset
-					name="Mootools enable/disable"
-					label="PLG_SYS_MOOTABLE_OPTIONS"
-					>
-					<field
-					name="mootable"
-					type="radio"
-					label="PLG_SYS_MOOTABLE_ENABLE_MOOTOOLS_LABEL"
-					description="PLG_SYS_MOOTABLE_ENABLE_MOOTOOLS_DESC"
-					default="' . $this->_params->get('defaultMode', 0) . '"
-					>
-							<option value="1">JYES</option>
-							<option value="0">JNO</option>
-					</field>
-					</fieldset>
-					</fields>
-					</form>
-					');
+			$form->loadFile($this->_pathPlugin . '/forms/menuitem.xml');
 		}
 
 		return true;
@@ -350,6 +328,89 @@ class PlgSystemMootable extends JPlugin
 	}
 
 	/**
+	 * Disable the page scripts
+	 *
+	 * @return  void
+	 */
+	private function disablePageScripts()
+	{
+		$pageParams = JFactory::getApplication()->getParams();
+
+		// Other scripts disabled
+		$globalDisabled = str_replace("\n", ",", $this->_params->get('manualDisable', null));
+		$menuDisabled   = str_replace("\n", ",", $pageParams->get('disabledScripts', null));
+
+		$scriptsDisabled = array_unique(array_merge(explode(',', $globalDisabled), explode(',', $menuDisabled)));
+
+		// Disable 3rd party extensions added by the user
+		if (!empty($scriptsDisabled))
+		{
+			$doc = JFactory::getDocument();
+
+			foreach ($scriptsDisabled as $script)
+			{
+				$script = trim($script);
+
+				if (!empty($script))
+				{
+					$uri = JUri::getInstance();
+
+					$relativePath   = trim(str_replace($uri->getPath(), '', JUri::root()), '/');
+					$relativeScript = trim(str_replace($uri->getPath(), '', $script), '/');
+					$relativeUrl    = str_replace($relativePath, '', $script);
+
+					// Try to disable relative and full URLs
+					unset($doc->_scripts[$script]);
+					unset($doc->_scripts[$relativeUrl]);
+					unset($doc->_scripts[JUri::root(true) . $script]);
+					unset($doc->_scripts[$relativeScript]);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Disable the page stylesheets
+	 *
+	 * @return  void
+	 */
+	private function disablePageStylesheets()
+	{
+		$pageParams = JFactory::getApplication()->getParams();
+
+		// Other scripts disabled
+		$globalDisabled = str_replace("\n", ",", $this->_params->get('disabledStylesheets', null));
+		$menuDisabled   = str_replace("\n", ",", $pageParams->get('disabledStylesheets', null));
+
+		$stylesheetsDisabled = array_unique(array_merge(explode(',', $globalDisabled), explode(',', $menuDisabled)));
+
+		if (!empty($stylesheetsDisabled))
+		{
+			$doc = JFactory::getDocument();
+
+			foreach ($stylesheetsDisabled as $stylesheet)
+			{
+				$stylesheet = trim($stylesheet);
+
+				if (!empty($stylesheet))
+				{
+					$uri = JUri::getInstance();
+
+					$relativePath   = trim(str_replace($uri->getPath(), '', JUri::root()), '/');
+					$relativeStylesheet = trim(str_replace($uri->getPath(), '', $stylesheet), '/');
+					$relativeUrl    = str_replace($relativePath, '', $stylesheet);
+
+					// Try to disable relative and full URLs
+					unset($doc->_styleSheets[$stylesheet]);
+					unset($doc->_styleSheets[$relativeUrl]);
+					unset($doc->_styleSheets[JUri::root(true) . $stylesheet]);
+					unset($doc->_styleSheets[$relativeStylesheet]);
+				}
+			}
+		}
+	}
+
+	/**
 	 * initialize folder structure
 	 *
 	 * @return none
@@ -390,7 +451,9 @@ class PlgSystemMootable extends JPlugin
 		// Always enable mootools for given components
 		if ($alwaysEnable = $this->_params->get('alwaysEnable', null))
 		{
-			$components = explode(',', $this->_params->get('alwaysEnable', null));
+			// Allow ENTER separated and remove spaces
+			$components = str_replace(array("\n", " "), array(",", ""), $alwaysEnable);
+			$components = explode(',', $components);
 
 			if (in_array($option, $components))
 			{

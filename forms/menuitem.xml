@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params" addfieldpath="plugins/system/mootable/forms/fields">
+		<fieldset
+		name="mootable"
+		label="PLG_SYS_MOOTABLE_OPTIONS"
+		>
+			<field type="header" name="header" label="PLG_SYS_MOOTABLE_HEADER_MOOTOOLS" />
+			<field
+			name="mootable"
+			type="radio"
+			label="PLG_SYS_MOOTABLE_ENABLE_MOOTOOLS_LABEL"
+			description="PLG_SYS_MOOTABLE_ENABLE_MOOTOOLS_DESC"
+			default=""
+			class="btn-group"
+			>
+				<option value="">JDEFAULT</option>
+				<option value="1">JENABLED</option>
+				<option value="0">JDISABLED</option>
+			</field>
+			<field
+			name="moreMode"
+			type="radio"
+			label="PLG_SYS_MOOTABLE_ENABLE_MOOTOOLS_MORE_LABEL"
+			description="PLG_SYS_MOOTABLE_ENABLE_MOOTOOLS_MORE_DESC"
+			default=""
+			class="btn-group"
+			>
+				<option value="">JDEFAULT</option>
+				<option value="1">JENABLED</option>
+				<option value="0">JDISABLED</option>
+			</field>
+			<field type="header" name="header1" label="PLG_SYS_MOOTABLE_HEADER_ADDITIONAL_ASSETS" />
+			<field
+				name="disabledScripts"
+				type="textarea"
+				default=""
+				label="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLED_JS_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLED_JS_DESC"
+				rows="5"
+				cols="30"
+			/>
+			<field
+				name="disabledStylesheets"
+				type="textarea"
+				default=""
+				label="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLED_CSS_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLED_CSS_DESC"
+				rows="5"
+				cols="30"
+			/>
+		</fieldset>
+	</fields>
+</form>

@@ -1,7 +1,24 @@
-.buildpath
-.settings/
-.project
-# nunca ignorar .gitignore ni index.html
+# OSX
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Temp files
+*.tmp
+*.bak
+*.swp
+*~.nib
+*~
+
+# Never ignore
 !.gitignore
 !index.html
 !index.php
+
+# Build config
+build.properties

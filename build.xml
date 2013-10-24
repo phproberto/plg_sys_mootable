@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="mootable" default="site" basedir=".">
+    <!-- Do initialization stuff -->
+    <target name="site" >
+        <property file="build.properties"  override="true"/>
+        <property name="extension" value="${ext.name}" />
+        <property name="src" value="./"/>
+        <if>
+            <equals arg1="${extension}" arg2="" />
+            <then>
+                <fail message="Extension not specified, use -Dextension=EXTENSION" />
+            </then>
+        </if>
+
+        <!-- Clean old files -->
+        <delete dir="${www.dir}/plugins/system/${extension}" quiet="yes" includeemptydirs="true"/>
+
+        <!-- Plugin files -->
+        <copy todir="${www.dir}/plugins/system/${extension}" overwrite="true">
+            <fileset dir="${src}">
+                <include name="**"/>
+                <!-- Exclude the language folder -->
+                <exclude name="language"/>
+            </fileset>
+        </copy>
+
+        <!-- Plugin languages -->
+        <copy todir="${www.dir}/administrator/language" overwrite="true">
+            <fileset dir="${src}/language">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+    </target>
+</project>

@@ -2,98 +2,115 @@
 <extension version="2.5" type="plugin" group="system" method="upgrade">
 	<name>PLG_SYS_MOOTABLE</name>
 	<author>Roberto Segura</author>
-	<creationDate>December 2012</creationDate>
-	<copyright>Copyright (C) 2012 Roberto Segura. All rights reserved.</copyright>
+	<creationDate>October 2013</creationDate>
+	<copyright>Copyright (C) 2012-2013 Roberto Segura. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>roberto@phproberto.com</authorEmail>
 	<authorUrl>http://digitaldisseny.com/en/extensions/showtags-content-tags-joomla-plugin</authorUrl>
-	<version>1.0.8</version>
+	<version>1.1.0</version>
 	<description>PLG_SYS_MOOTABLE_XML_DESC</description>
 	<files>
 		<folder>css</folder>
+		<folder>forms</folder>
 		<folder>js</folder>
 		<folder>language</folder>
 		<filename plugin="mootable">mootable.php</filename>
 		<filename>index.html</filename>
 	</files>
 	<languages>
-		<!-- de-DE -->
-		<language tag="pt-BR">language/de-DE/de-DE.plg_system_mootable.ini</language>
-		<language tag="pt-BR">language/de-DE/de-DE.plg_system_mootable.sys.ini</language>
 		<!-- en-GB -->
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_mootable.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_mootable.sys.ini</language>
 		<!-- es-ES -->
 		<language tag="es-ES">language/es-ES/es-ES.plg_system_mootable.ini</language>
 		<language tag="es-ES">language/es-ES/es-ES.plg_system_mootable.sys.ini</language>
-		<!-- nl-NL -->
-		<language tag="nl-NL">language/nl-NL/nl-NL.plg_system_mootable.ini</language>
-		<language tag="nl-NL">language/nl-NL/nl-NL.plg_system_mootable.sys.ini</language>
-		<!-- pl-PL -->
-		<language tag="pl-PL">language/pl-PL/pl-PL.plg_system_mootable.ini</language>
-		<language tag="pl-PL">language/pl-PL/pl-PL.plg_system_mootable.sys.ini</language>
-		<!-- pt-BR -->
-		<language tag="pt-BR">language/pt-BR/pt-BR.plg_system_mootable.ini</language>
-		<language tag="pt-BR">language/pt-BR/pt-BR.plg_system_mootable.sys.ini</language>
 	</languages>
 	<config>
-	<fields name="params">
+	<fields name="params" addfieldpath="plugins/system/mootable/forms/fields">
 		<fieldset name="basic">
-				<field
-					name="defaultMode"
-					type="list"
-					default="0"
-					label="PLG_SYS_MOOTABLE_FIELD_DEFAULT_MODE_LABEL"
-					description="PLG_SYS_MOOTABLE_FIELD_DEFAULT_MODE_DESC">
-						<option value="0">
-							PLG_SYS_MOOTABLE_FIELD_DEFAULT_DISABLED
-						</option>
-						<option value="1">
-							PLG_SYS_MOOTABLE_FIELD_DEFAULT_ENABLED
-						</option>
-				</field>
-				<field
-					name="manualDisable"
-					type="textarea"
-					default=""
-					label="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLE_LABEL"
-					description="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLE_DESC"
-					rows="5"
-					cols="30"
-				/>
-				<field
-					name="alwaysEnable"
-					type="textarea"
-					default=""
-					label="PLG_SYS_MOOTABLE_FIELD_COMPONENTS_ENABLE_LABEL"
-					description="PLG_SYS_MOOTABLE_FIELD_COMPONENTS_ENABLE_DESC"
-					rows="5"
-					cols="30"
-				/>
-				<field name="contentEdition" type="radio"
-					label="PLG_SYS_MOOTABLE_FIELD_CONTENT_EDITION_LABEL"
-					description="PLG_SYS_MOOTABLE_FIELD_CONTENT_EDITION_DESC"
-					default="1"
+			<field type="header" name="header" label="PLG_SYS_MOOTABLE_HEADER_DEFAULTS" />
+			<field
+				name="defaultMode"
+				type="radio"
+				default="0"
+				label="PLG_SYS_MOOTABLE_FIELD_DEFAULT_MODE_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_DEFAULT_MODE_DESC"
+				class="btn-group"
 				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field name="enableComUsers" type="radio"
-					label="PLG_SYS_MOOTABLE_FIELD_ENABLE_COM_USERS_LABEL"
-					description="PLG_SYS_MOOTABLE_FIELD_ENABLE_COM_USERS_DESC"
-					default="1"
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+			</field>
+			<field
+				name="defaultMoreMode"
+				type="radio"
+				default="0"
+				label="PLG_SYS_MOOTABLE_FIELD_DEFAULT_MOOTOOLS_MORE_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_DEFAULT_MOOTOOLS_MORE_DESC"
+				class="btn-group"
 				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
-				<field name="disableWhenDebug" type="radio"
-					label="PLG_SYS_MOOTABLE_FIELD_DISABLE_WHEN_DEBUG_LABEL"
-					description="PLG_SYS_MOOTABLE_FIELD_DISABLE_WHEN_DEBUG_DESC"
-					default="1"
-				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
-				</field>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+			</field>
+			<field type="header" name="header1" label="PLG_SYS_MOOTABLE_HEADER_ADDITIONAL_ASSETS" />
+			<field
+				name="manualDisable"
+				type="textarea"
+				default=""
+				label="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLED_JS_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLED_JS_DESC"
+				rows="5"
+				cols="30"
+			/>
+			<field
+				name="disabledStylesheets"
+				type="textarea"
+				default=""
+				label="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLED_CSS_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_MANUAL_DISABLED_CSS_DESC"
+				rows="5"
+				cols="30"
+			/>
+		</fieldset>
+		<fieldset name="autoenable">
+			<field name="contentEdition" type="radio"
+				label="PLG_SYS_MOOTABLE_FIELD_CONTENT_EDITION_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_CONTENT_EDITION_DESC"
+				class="btn-group"
+				default="1"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="enableComUsers" type="radio"
+				label="PLG_SYS_MOOTABLE_FIELD_ENABLE_COM_USERS_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_ENABLE_COM_USERS_DESC"
+				default="1"
+				class="btn-group"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="alwaysEnable"
+				type="textarea"
+				default=""
+				label="PLG_SYS_MOOTABLE_FIELD_COMPONENTS_ENABLE_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_COMPONENTS_ENABLE_DESC"
+				rows="5"
+				cols="30"
+			/>
+		</fieldset>
+		<fieldset name="advanced">
+			<field name="disableWhenDebug"
+				type="radio"
+				label="PLG_SYS_MOOTABLE_FIELD_DISABLE_WHEN_DEBUG_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_DISABLE_WHEN_DEBUG_DESC"
+				default="1"
+				class="btn-group"
+			>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
 		</fieldset>
 	</fields>
 	</config>
