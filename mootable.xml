@@ -51,6 +51,17 @@
 					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
 			</field>
+			<field
+				name="defaultJQMode"
+				type="radio"
+				default="0"
+				label="PLG_SYS_MOOTABLE_FIELD_DEFAULT_JQ_LABEL"
+				description="PLG_SYS_MOOTABLE_FIELD_DEFAULT_JQ_DESC"
+				class="btn-group"
+				>
+					<option value="1">JENABLED</option>
+					<option value="0">JDISABLED</option>
+			</field>
 			<field type="header" name="header1" label="PLG_SYS_MOOTABLE_HEADER_ADDITIONAL_ASSETS" />
 			<field
 				name="manualDisable"

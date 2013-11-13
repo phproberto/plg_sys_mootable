@@ -132,8 +132,18 @@ class PlgSystemMootable extends JPlugin
 		// Check if we have to disable Mootools for this item
 		$mootoolsMode = $pageParams->get('mootable', $this->_params->get('defaultMode', 0));
 		$moreMode     = $pageParams->get('moreMode', $this->_params->get('defaultMoreMode', 0));
+		$defaultJQMode = $pageParams->get('defaultJQMode', $this->_params->get('defaultJQMode', 0));
 
 		$disableOnDebug = $this->_params->get('disableWhenDebug', 1);
+
+		if (!$this->_isAutoEnabled() && 0 == $defaultJQMode)
+		{
+			// REMOVE CORE JQUERY
+			unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery.min.js']);
+			unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery-noconflict.js']);
+			unset($doc->_scripts[JURI::root(true) . '/media/jui/js/jquery-migrate.min.js']);
+			unset($doc->_scripts[JURI::root(true) . '/media/system/js/tabs-state.js']);
+		}
 
 		if (!$this->_isAutoEnabled() && 0 == $mootoolsMode)
 		{
