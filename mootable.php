@@ -32,8 +32,6 @@ class PlgSystemMootable extends JPlugin
 	// Handy objects
 	private $_app    = null;
 
-	private $_doc    = null;
-
 	// Paths
 	private $_pathPlugin = null;
 
@@ -96,7 +94,6 @@ class PlgSystemMootable extends JPlugin
 
 		// Required objects
 		$this->_app = JFactory::getApplication();
-		$this->_doc = JFactory::getDocument();
 
 		// Set the HTML available positions
 		$this->_htmlPositionsAvailable = array_keys($this->_htmlPositions);
