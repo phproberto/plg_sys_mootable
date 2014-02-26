@@ -28,9 +28,6 @@ class PlgSystemMootable extends JPlugin
 
 	const NAME = 'mootable';
 
-	// Handy objects
-	private $_app    = null;
-
 	// Paths
 	private $_pathPlugin = null;
 
@@ -90,9 +87,6 @@ class PlgSystemMootable extends JPlugin
 	function __construct( &$subject )
 	{
 		parent::__construct($subject);
-
-		// Required objects
-		$this->_app = JFactory::getApplication();
 
 		// Set the HTML available positions
 		$this->_htmlPositionsAvailable = array_keys($this->_htmlPositions);
@@ -606,7 +600,9 @@ class PlgSystemMootable extends JPlugin
 	 */
 	private function _validateApplication()
 	{
-		if ( ($this->_app->isSite() && $this->_frontendEnabled) || ($this->_app->isAdmin() && $this->_backendEnabled) )
+		$app = JFactory::getApplication();
+
+		if ( ($app->isSite() && $this->_frontendEnabled) || ($app->isAdmin() && $this->_backendEnabled) )
 		{
 			return true;
 		}
