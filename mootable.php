@@ -7,7 +7,6 @@
  * @copyright   (c) 2012 Roberto Segura. All Rights Reserved.
  * @license     GNU/GPL 2, http://www.gnu.org/licenses/gpl-2.0.htm
  */
-
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.plugin.plugin');
@@ -84,10 +83,10 @@ class PlgSystemMootable extends JPlugin
 	private $_backendEnabled 	= false;
 
 	/**
-	* Constructor
-	*
-	* @param   mixed  &$subject  Subject
-	*/
+	 * Constructor
+	 *
+	 * @param   mixed  &$subject  Subject
+	 */
 	function __construct( &$subject )
 	{
 		parent::__construct($subject);
@@ -110,13 +109,11 @@ class PlgSystemMootable extends JPlugin
 	}
 
 	/**
-	 * This event is triggered immediately before pushing the document buffers into the template placeholders,
-	 * retrieving data from the document and pushing it into the into the JResponse buffer.
-	 * http://docs.joomla.org/Plugin/Events/System
+	 * This event is triggered before the framework creates the Head section of the Document.
 	 *
 	 * @return boolean
 	 */
-	function onBeforeRender()
+	function onBeforeCompileHead()
 	{
 		// Validate view
 		if (!$this->_validateUrl())
@@ -141,21 +138,22 @@ class PlgSystemMootable extends JPlugin
 			$doc->addScriptDeclaration("function do_nothing() { return; }");
 
 			// Disable mootools javascript
-			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core.js']);
-			unset($doc->_scripts[JURI::root(true) . '/media/system/js/core.js']);
-			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more.js']);
-			unset($doc->_scripts[JURI::root(true) . '/media/system/js/caption.js']);
-			unset($doc->_scripts[JURI::root(true) . '/media/system/js/modal.js']);
-			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools.js']);
-			unset($doc->_scripts[JURI::root(true) . '/plugins/system/mtupgrade/mootools.js']);
+			$this->disableScript('/media/system/js/mootools-core.js');
+			$this->disableScript('/media/system/js/core.js');
+			$this->disableScript('/media/system/js/mootools-more.js');
+			$this->disableScript('/media/system/js/caption.js');
+			$this->disableScript('/media/system/js/modal.js');
+			$this->disableScript('/media/system/js/mootools.js');
+			$this->disableScript('/plugins/system/mtupgrade/mootools.js');
 
 			// Disabled mootools javascript when debugging site
 			if ($disableOnDebug)
 			{
-				unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-core-uncompressed.js']);
-				unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more-uncompressed.js']);
-				unset($doc->_scripts[JURI::root(true) . '/media/system/js/core-uncompressed.js']);
-				unset($doc->_scripts[JURI::root(true) . '/media/system/js/caption-uncompressed.js']);
+				$this->disableScript('/media/system/js/mootools-core-uncompressed.js');
+				$this->disableScript('/media/system/js/mootools-core-uncompressed.js');
+				$this->disableScript('/media/system/js/mootools-more-uncompressed.js');
+				$this->disableScript('/media/system/js/core-uncompressed.js');
+				$this->disableScript('/media/system/js/caption-uncompressed.js');
 			}
 
 			// Disable css stylesheets
@@ -179,12 +177,12 @@ class PlgSystemMootable extends JPlugin
 	}
 
 	/**
-     * This event is triggered after pushing the document buffers into the template placeholders,
-     * retrieving data from the document and pushing it into the into the JResponse buffer.
-     * http://docs.joomla.org/Plugin/Events/System
-     *
-     * @return boolean
-     */
+	 * This event is triggered after pushing the document buffers into the template placeholders,
+	 * retrieving data from the document and pushing it into the into the JResponse buffer.
+	 * http://docs.joomla.org/Plugin/Events/System
+	 *
+	 * @return boolean
+	 */
 	function onAfterRender()
 	{
 		// Validate view
@@ -221,13 +219,13 @@ class PlgSystemMootable extends JPlugin
 	}
 
 	/**
-	* Change forms before they are shown to the user
-	*
-	* @param   JForm  $form  JForm object
-	* @param   array  $data  Data array
-	*
-	* @return boolean
-	*/
+	 * Change forms before they are shown to the user
+	 *
+	 * @param   JForm  $form  JForm object
+	 * @param   array  $data  Data array
+	 *
+	 * @return boolean
+	 */
 	public function onContentPrepareForm($form, $data)
 	{
 		// Check we have a form
@@ -322,6 +320,34 @@ class PlgSystemMootable extends JPlugin
 
 		// Insert JS call
 		$this->_jsCalls[$position][] = $jsCall;
+	}
+
+	/**
+	 * Disable a page script
+	 *
+	 * @param   string  $script  URL to script (global/relative should work)
+	 *
+	 * @return  void
+	 */
+	private function disableScript($script)
+	{
+		$script = trim($script);
+
+		if (!empty($script))
+		{
+			$doc = JFactory::getDocument();
+			$uri = JUri::getInstance();
+
+			$relativePath   = trim(str_replace($uri->getPath(), '', JUri::root()), '/');
+			$relativeScript = trim(str_replace($uri->getPath(), '', $script), '/');
+			$relativeUrl    = str_replace($relativePath, '', $script);
+
+			// Try to disable relative and full URLs
+			unset($doc->_scripts[$script]);
+			unset($doc->_scripts[$relativeUrl]);
+			unset($doc->_scripts[JUri::root(true) . $script]);
+			unset($doc->_scripts[$relativeScript]);
+		}
 	}
 
 	/**
