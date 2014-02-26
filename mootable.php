@@ -150,15 +150,15 @@ class PlgSystemMootable extends JPlugin
 			}
 
 			// Disable css stylesheets
-			unset($doc->_styleSheets[JURI::root(true) . '/media/system/css/modal.css']);
+			$this->disableStylesheet('/media/system/css/modal.css');
 		}
 		elseif (0 == $moreMode)
 		{
-			unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more.js']);
+			$this->disableScript('/media/system/js/mootools-more.js');
 
 			if ($disableOnDebug)
 			{
-				unset($doc->_scripts[JURI::root(true) . '/media/system/js/mootools-more-uncompressed.js']);
+				$this->disableScript('/media/system/js/mootools-more-uncompressed.js');
 			}
 		}
 
@@ -239,9 +239,9 @@ class PlgSystemMootable extends JPlugin
 	}
 
 	/**
-	 * Disable a page script
+	 * Remove a javascript file call from header
 	 *
-	 * @param   string  $script  URL to script (global/relative should work)
+	 * @param   string  $script  URL to script (both global/relative should work)
 	 *
 	 * @return  void
 	 */
@@ -267,6 +267,34 @@ class PlgSystemMootable extends JPlugin
 	}
 
 	/**
+	 * Remove a stylesheet file call from header
+	 *
+	 * @param   string  $stylesheet  URL to the stylesheet (both global/relative should work)
+	 *
+	 * @return  void
+	 */
+	private function disableStylesheet($stylesheet)
+	{
+		$stylesheet = trim($stylesheet);
+
+		if (!empty($stylesheet))
+		{
+			$doc = JFactory::getDocument();
+			$uri = JUri::getInstance();
+
+			$relativePath   = trim(str_replace($uri->getPath(), '', JUri::root()), '/');
+			$relativeStylesheet = trim(str_replace($uri->getPath(), '', $stylesheet), '/');
+			$relativeUrl    = str_replace($relativePath, '', $stylesheet);
+
+			// Try to disable relative and full URLs
+			unset($doc->_styleSheets[$stylesheet]);
+			unset($doc->_styleSheets[$relativeUrl]);
+			unset($doc->_styleSheets[JUri::root(true) . $stylesheet]);
+			unset($doc->_styleSheets[$relativeStylesheet]);
+		}
+	}
+
+	/**
 	 * Disable the page scripts
 	 *
 	 * @return  void
@@ -284,26 +312,9 @@ class PlgSystemMootable extends JPlugin
 		// Disable 3rd party extensions added by the user
 		if (!empty($scriptsDisabled))
 		{
-			$doc = JFactory::getDocument();
-
 			foreach ($scriptsDisabled as $script)
 			{
-				$script = trim($script);
-
-				if (!empty($script))
-				{
-					$uri = JUri::getInstance();
-
-					$relativePath   = trim(str_replace($uri->getPath(), '', JUri::root()), '/');
-					$relativeScript = trim(str_replace($uri->getPath(), '', $script), '/');
-					$relativeUrl    = str_replace($relativePath, '', $script);
-
-					// Try to disable relative and full URLs
-					unset($doc->_scripts[$script]);
-					unset($doc->_scripts[$relativeUrl]);
-					unset($doc->_scripts[JUri::root(true) . $script]);
-					unset($doc->_scripts[$relativeScript]);
-				}
+				$this->disableScript($script);
 			}
 		}
 	}
@@ -325,26 +336,9 @@ class PlgSystemMootable extends JPlugin
 
 		if (!empty($stylesheetsDisabled))
 		{
-			$doc = JFactory::getDocument();
-
 			foreach ($stylesheetsDisabled as $stylesheet)
 			{
-				$stylesheet = trim($stylesheet);
-
-				if (!empty($stylesheet))
-				{
-					$uri = JUri::getInstance();
-
-					$relativePath   = trim(str_replace($uri->getPath(), '', JUri::root()), '/');
-					$relativeStylesheet = trim(str_replace($uri->getPath(), '', $stylesheet), '/');
-					$relativeUrl    = str_replace($relativePath, '', $stylesheet);
-
-					// Try to disable relative and full URLs
-					unset($doc->_styleSheets[$stylesheet]);
-					unset($doc->_styleSheets[$relativeUrl]);
-					unset($doc->_styleSheets[JUri::root(true) . $stylesheet]);
-					unset($doc->_styleSheets[$relativeStylesheet]);
-				}
+				$this->disableStylesheet($stylesheet);
 			}
 		}
 	}
