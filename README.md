@@ -16,7 +16,7 @@ Features
 
 Version 
 ---------------
-**Plugin version:** 1.1.0  
+**Plugin version:** 1.1.2  
 
 Install
 ---------------
@@ -31,6 +31,8 @@ When editing a menu you will see a new pane called "Mootools enable/disable". Ad
 
 Release history 
 ---------------
+v.1.1.2 -> Solve `header` field conflicts with K2. Thanks Joe Campbell  
+v.1.1.1 -> Use onBeforeCompileHead trigger for cleanup  
 v.1.1.0 -> Improve flexibility of the asset control + easier management  
 v.1.0.8 -> Fixed autoenable for content creation & friendly URLs enabled. Autoenable for com_users.  
 v.1.0.7 -> Added autocomponent enabling. Thanks to [[Hans Kuijpers!](http://www.linkedin.com/in/hans2103/)]  

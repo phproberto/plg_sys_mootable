@@ -7,7 +7,7 @@
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>roberto@phproberto.com</authorEmail>
 	<authorUrl>http://digitaldisseny.com/en/extensions/showtags-content-tags-joomla-plugin</authorUrl>
-	<version>1.1.1</version>
+	<version>1.1.2</version>
 	<description>PLG_SYS_MOOTABLE_XML_DESC</description>
 	<files>
 		<folder>forms</folder>
@@ -28,7 +28,7 @@
 	<config>
 	<fields name="params" addfieldpath="plugins/system/mootable/forms/fields">
 		<fieldset name="basic">
-			<field type="header" name="header" label="PLG_SYS_MOOTABLE_HEADER_DEFAULTS" />
+			<field type="mootable.header" name="header" label="PLG_SYS_MOOTABLE_HEADER_DEFAULTS" />
 			<field
 				name="defaultMode"
 				type="radio"
@@ -51,7 +51,7 @@
 					<option value="1">JENABLED</option>
 					<option value="0">JDISABLED</option>
 			</field>
-			<field type="header" name="header1" label="PLG_SYS_MOOTABLE_HEADER_ADDITIONAL_ASSETS" />
+			<field type="mootable.header" name="header1" label="PLG_SYS_MOOTABLE_HEADER_ADDITIONAL_ASSETS" />
 			<field
 				name="manualDisable"
 				type="textarea"
