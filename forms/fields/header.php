@@ -19,7 +19,7 @@ JLoader::import('joomla.form.formfield');
  * @subpackage  System.Mootable
  * @since       1.1.0
  */
-class JFormFieldHeader extends JFormField
+class MootableFormFieldHeader extends JFormField
 {
 	/**
 	 * The form field type.
