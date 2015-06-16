@@ -132,7 +132,9 @@ class PlgSystemMootable extends JPlugin
 
 			// Disable mootools javascript
 			$this->disableScript('/media/system/js/mootools-core.js');
-			$this->disableScript('/media/system/js/core.js');
+			if(version_compare(JVERSION,'3.3','<')) {
+				$this->disableScript('/media/system/js/core.js');
+			}
 			$this->disableScript('/media/system/js/mootools-more.js');
 			$this->disableScript('/media/system/js/caption.js');
 			$this->disableScript('/media/system/js/modal.js');
