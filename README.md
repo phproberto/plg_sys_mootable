@@ -16,7 +16,7 @@ Features
 
 Version 
 ---------------
-**Plugin version:** 1.1.2  
+**Plugin version:** 1.5.0  
 
 Install
 ---------------
@@ -31,6 +31,7 @@ When editing a menu you will see a new pane called "Mootools enable/disable". Ad
 
 Release history 
 ---------------
+v.1.5.0 -> Update extension with the latest version I used
 v.1.1.2 -> Solve `header` field conflicts with K2. Thanks Joe Campbell  
 v.1.1.1 -> Use onBeforeCompileHead trigger for cleanup  
 v.1.1.0 -> Improve flexibility of the asset control + easier management  
